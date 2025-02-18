@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JWTUtil {
-    @Value("${auth.token}")
-    private static String authToken;
+//    @Value("${auth.token}")
+    private static String authToken = "tui";
 
     public static final long EXPIRATION_TIME = Long.parseLong(System.getenv().getOrDefault("JWT_EXPIRATION_TIME", "86400000"));
 

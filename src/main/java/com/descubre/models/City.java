@@ -1,5 +1,7 @@
 package com.descubre.models;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,8 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class City {
     @Id
     private String id;
+    @NotBlank(message = "The name is required.")
     private String name;
+    @NotBlank
+    @Pattern(regexp = "\\d{5}", message = "The postal code must contain exactly 5 digits.")
     private String postalCode;
+    @NotBlank(message = "The country is required.")
     private String country;
 
     public City() {
