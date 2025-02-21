@@ -3,9 +3,13 @@ package com.descubre.controllers;
 import com.descubre.models.User;
 import com.descubre.repositories.UserRepository;
 import com.descubre.security.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Optional;
@@ -16,9 +20,12 @@ import java.util.Set;
 public class AuthController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JWTUtil jwtUtil;
 
-    public AuthController(UserRepository userRepository) {
+    @Autowired
+    public AuthController(UserRepository userRepository, JWTUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
@@ -46,7 +53,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
 
-        String token = JWTUtil.generateToken(email, userOptional.get().getRoles());
+        String token = jwtUtil.generateToken(email, userOptional.get().getRoles());
         return ResponseEntity.ok(Map.of("token", token));
     }
 }

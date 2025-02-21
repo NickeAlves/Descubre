@@ -1,19 +1,33 @@
 package com.descubre.models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "addresses")
 public class Address {
+    @Id
+    private String id;
     private String street;
     private String number;
     private String neighborhood;
-    private String cityId;
+    private City city;
 
     public Address() {
     }
 
-    public Address(String street, String number, String neighborhood, String cityId) {
+    public Address(String street, String number, String neighborhood, City city) {
         this.street = street;
         this.number = number;
         this.neighborhood = neighborhood;
-        this.cityId = cityId;
+        this.city = city;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getStreet() {
@@ -40,11 +54,18 @@ public class Address {
         this.neighborhood = neighborhood;
     }
 
-    public String cityId() {
-        return cityId;
+    public City getCity() {
+        return city;
     }
 
-    public void setCityId(String city) {
-        this.cityId = cityId;
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Address - " + "\nid: " + id +
+                ", street: " + street + ", number: " + number +
+                " - neighborhood: " + neighborhood + ", " + city;
     }
 }

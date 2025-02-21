@@ -1,4 +1,4 @@
-package com.descubre.cors;
+package com.descubre.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,7 +1,9 @@
 package com.descubre.controllers;
 
+import com.descubre.dtos.CityDTO;
 import com.descubre.models.City;
 import com.descubre.services.CityService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,14 +38,17 @@ public class CityController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public City createCity(@RequestBody City city) {
+    public City createCity(@RequestBody @Valid CityDTO cityDTO) {
+        City city = new City(cityDTO.id(), cityDTO.name(), cityDTO.postalCode(), cityDTO.country());
         return cityService.saveCity(city);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping
-    public ResponseEntity<City> updateCity(@PathVariable String id, @RequestBody City city) {
-        return ResponseEntity.ok(cityService.updateCity(id, city));
+    @PutMapping("/{id}")
+    public ResponseEntity<City> updateCity(@PathVariable String id, @RequestBody @Valid CityDTO cityDTO) {
+        City city = new City(cityDTO.id(), cityDTO.name(), cityDTO.postalCode(), cityDTO.country());
+        City updatedCity = cityService.updateCity(id, city);
+        return ResponseEntity.ok(updatedCity);
     }
 
 
@@ -53,6 +58,4 @@ public class CityController {
         cityService.deleteCity(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

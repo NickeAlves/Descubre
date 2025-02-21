@@ -14,7 +14,7 @@ public class DTOConverter {
     }
 
     public static AddressDTO convertAddressDTO(Address address) {
-        return new AddressDTO(address.getStreet(), address.getNumber(), address.getNeighborhood());
+        return new AddressDTO(address.getStreet(), address.getNumber(), address.getNeighborhood(), address.getCity().getId());
     }
 
     public static TouristAttractionDTO convertTouristAttractionDTO(TouristAttraction touristAttraction) {

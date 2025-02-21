@@ -15,12 +15,16 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JWTUtil jwtUtil;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JWTUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+    }
 
     public User registerUser(RegisterDTO registerDTO) {
         Optional<User> existingUser = userRepository.findByEmail(registerDTO.email());
@@ -39,7 +43,7 @@ public class UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
-                return JWTUtil.generateToken(user.getEmail(), user.getRoles());
+                return jwtUtil.generateToken(user.getEmail(), user.getRoles());
             }
         }
         throw new RuntimeException("Email or password incorrect.");
