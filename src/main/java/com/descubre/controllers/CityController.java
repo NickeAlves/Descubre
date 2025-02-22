@@ -1,6 +1,7 @@
 package com.descubre.controllers;
 
 import com.descubre.dtos.CityDTO;
+import com.descubre.dtos.UpdateCityDTO;
 import com.descubre.models.City;
 import com.descubre.services.CityService;
 import jakarta.validation.Valid;
@@ -45,12 +46,10 @@ public class CityController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<City> updateCity(@PathVariable String id, @RequestBody @Valid CityDTO cityDTO) {
-        City city = new City(cityDTO.id(), cityDTO.name(), cityDTO.postalCode(), cityDTO.country());
-        City updatedCity = cityService.updateCity(id, city);
+    public ResponseEntity<City> updateCity(@PathVariable String id, @RequestBody @Valid UpdateCityDTO UpdateCityDTO) {
+        City updatedCity = cityService.updateCity(id, UpdateCityDTO);
         return ResponseEntity.ok(updatedCity);
     }
-
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

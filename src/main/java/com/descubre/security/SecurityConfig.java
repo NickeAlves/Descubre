@@ -1,6 +1,7 @@
 package com.descubre.security;
 
 import com.descubre.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,7 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
 
+    @Autowired
     public SecurityConfig(UserRepository userRepository, JWTUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
@@ -34,9 +36,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/**"))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cities").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cities").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/cities/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/cities/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/cities/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/cities/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/attractions").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/attractions").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/attractions/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/attractions/").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JWTAuthenticationFilter(jwtUtil, userDetailsService),

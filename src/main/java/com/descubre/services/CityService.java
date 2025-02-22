@@ -1,5 +1,6 @@
 package com.descubre.services;
 
+import com.descubre.dtos.UpdateCityDTO;
 import com.descubre.models.City;
 import com.descubre.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import java.util.Optional;
 
 @Service
 public class CityService {
-
     private final CityRepository cityRepository;
 
     @Autowired
@@ -30,21 +30,26 @@ public class CityService {
         return cityRepository.save(city);
     }
 
-    public City updateCity(String id, City city) {
-        Optional<City> existingCity = cityRepository.findById(id);
-        if (existingCity.isPresent()) {
-            City updatedCity = existingCity.get();
-            updatedCity.setName(city.getName());
-            updatedCity.setPostalCode(city.getPostalCode());
-            updatedCity.setCountry(city.getCountry());
-            return cityRepository.save(updatedCity);
+    public City updateCity(String id, UpdateCityDTO UpdateCityDTO) {
+        City existingCity = cityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("City not found."));
+
+        if (UpdateCityDTO.name() != null) {
+            existingCity.setName(UpdateCityDTO.name());
         }
-        throw new RuntimeException("City not found");
+
+        if (UpdateCityDTO.postalCode() != null) {
+            existingCity.setPostalCode(UpdateCityDTO.postalCode());
+        }
+
+        if (UpdateCityDTO.country() != null) {
+            existingCity.setCountry(UpdateCityDTO.country());
+        }
+
+        return cityRepository.save(existingCity);
     }
 
     public void deleteCity(String id) {
         cityRepository.deleteById(id);
     }
-
-
 }

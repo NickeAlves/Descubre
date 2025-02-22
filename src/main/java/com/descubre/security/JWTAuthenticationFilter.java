@@ -21,6 +21,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    @Autowired
     public JWTAuthenticationFilter(JWTUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
