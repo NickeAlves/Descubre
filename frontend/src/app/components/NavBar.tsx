@@ -1,200 +1,65 @@
 "use client";
 
-import React from "react";
-import {
-  Navbar,
-  Collapse,
-  Typography,
-  IconButton,
-  List,
-  ListItem,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-} from "@material-tailwind/react";
-import {
-  ChevronDownIcon,
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  GlobeAmericasIcon,
-  NewspaperIcon,
-  PhoneIcon,
-  SunIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/solid";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
-const navListMenuItems = [
-  {
-    title: "About Us",
-    description: "Meet and learn about our dedication",
-    icon: UserGroupIcon,
-  },
-  {
-    title: "Services",
-    description: "Learn how we can help you achieve your goals.",
-    icon: SunIcon,
-  },
-  {
-    title: "Support",
-    description: "Reach out to us for assistance or inquiries",
-    icon: GlobeAmericasIcon,
-  },
-  {
-    title: "Contact",
-    description: "Find the perfect solution for your needs.",
-    icon: PhoneIcon,
-  },
-  {
-    title: "News",
-    description: "Read insightful articles, tips, and expert opinions.",
-    icon: NewspaperIcon,
-  },
-];
-
-function NavListMenu() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const renderItems = navListMenuItems.map(
-    ({ icon, title, description }, key) => (
-      <a href="#" key={key}>
-        <MenuItem className="flex items-center gap-3 rounded-lg">
-          <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2">
-            {React.createElement(icon, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
-          <div>
-            <Typography
-              variant="h6"
-              color="blue-gray"
-              className="flex items-center text-sm font-bold"
-            >
-              {title}
-            </Typography>
-            <Typography
-              variant="paragraph"
-              className="text-xs !font-medium text-blue-gray-500"
-            >
-              {description}
-            </Typography>
-          </div>
-        </MenuItem>
-      </a>
-    )
-  );
+const NavLinks = () => {
+  const pathname = usePathname();
 
   return (
-    <React.Fragment>
-      <Menu
-        open={isMenuOpen}
-        handler={setIsMenuOpen}
-        offset={{ mainAxis: 20 }}
-        placement="bottom"
-        allowHover={true}
+    <>
+      <Link
+        href="/"
+        className={`font-serif px-4 py-2 rounded-full transition-colors ${
+          pathname === "/"
+            ? "bg-red-500 text-white"
+            : "text-white hover:bg-red-400"
+        }`}
       >
-        <MenuHandler>
-          <Typography as="div" variant="small" className="font-medium">
-            <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
-              selected={isMenuOpen || isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen((cur) => !cur)}
-            >
-              Resources
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-              <ChevronDownIcon
-                strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
-                  isMobileMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-            </ListItem>
-          </Typography>
-        </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
-            {renderItems}
-          </ul>
-        </MenuList>
-      </Menu>
-      <div className="block lg:hidden">
-        <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
-      </div>
-    </React.Fragment>
-  );
-}
-
-function NavList() {
-  return (
-    <List className="flex-row gap-2 justify-center items-center mx-auto">
-      <Typography as="a" href="#" variant="small" className="font-medium">
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
-      </Typography>
-      <NavListMenu />
-      <Typography
-        as="a"
-        href="#"
-        variant="small"
-        color="blue-gray"
-        className="font-medium"
+        Home
+      </Link>
+      <Link
+        href="/cities"
+        className={`font-serif px-4 py-2 rounded-full transition-colors ${
+          pathname === "/cities"
+            ? "bg-red-500 text-white"
+            : "text-white hover:bg-red-400"
+        }`}
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Contact Us
-        </ListItem>
-      </Typography>
-    </List>
+        Cities
+      </Link>
+    </>
   );
-}
+};
 
-export function NavbarWithMegaMenu() {
-  const [openNav, setOpenNav] = React.useState(false);
+const NavBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
-    );
-  }, []);
+  const toggleNavBar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-4 py-2">
-      <div className="flex items-center justify-between">
-        <div className="gap-2 flex items-center">
-          <img src="/circle-logo.png" alt="Logo" className="h-10 w-auto" />
-          <h1 className="font-medium">Descubre</h1>
+    <>
+      <nav className="flex w-1/3 justify-end">
+        <div className="pr-52 gap-4 hidden justify-between md:flex">
+          <NavLinks />
         </div>
-
-        <div className="hidden lg:block flex-1">
-          <NavList />
+        <div className="md:hidden">
+          <button onClick={toggleNavBar} className="text-white">
+            {isOpen ? <X /> : <Menu />}
+          </button>
         </div>
-
-        <IconButton
-          variant="text"
-          color="blue-gray"
-          className="lg:hidden"
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-          ) : (
-            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-          )}
-        </IconButton>
-      </div>
-
-      <Collapse open={openNav}>
-        <div className="flex w-full flex-col items-start gap-2 lg:hidden">
-          <NavList />
+      </nav>
+      {isOpen && (
+        <div className="flex basis-full flex-col items-center bg-black p-4">
+          <NavLinks />
         </div>
-      </Collapse>
-    </Navbar>
+      )}
+    </>
   );
-}
+};
+
+export default NavBar;

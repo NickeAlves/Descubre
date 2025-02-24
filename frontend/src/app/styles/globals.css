@@ -1,0 +1,85 @@
+/* src/app/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-Regular.woff2") format("woff2"),
+    url("/fonts/Gilroy-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-RegularItalic.woff2") format("woff2"),
+    url("/fonts/Gilroy-RegularItalic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-Medium.woff2") format("woff2"),
+    url("/fonts/Gilroy-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-MediumItalic.woff2") format("woff2"),
+    url("/fonts/Gilroy-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-Bold.woff2") format("woff2"),
+    url("/fonts/Gilroy-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-BoldItalic.woff2") format("woff2"),
+    url("/fonts/Gilroy-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --black-background: #36393b;
+  --white-background: #ffffff;
+  --white-font-color: #ffffff;
+}
+
+@media (prefers-color-scheme: white) {
+  :root {
+    --background: var(--black-background);
+    --foreground: var(--white-background);
+  }
+}
+
+.Gilroy {
+  font-family: "Gilroy", Arial, Helvetica, sans-serif;
+}
+
+a {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  color: var(--white-font-color);
+  background: var(--black-background);
+  font-family: "Gilroy", "SF Pro Text", Arial, Helvetica, sans-serif;
+}
