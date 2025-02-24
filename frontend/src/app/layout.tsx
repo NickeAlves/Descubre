@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 export const metadata: Metadata = {
   title: "Descubre",
@@ -16,7 +17,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/images/circle-logo.png" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ScrollToTopButton />
+      </body>
     </html>
   );
 }
