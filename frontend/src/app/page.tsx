@@ -1,7 +1,6 @@
 "use client";
 
 import "./styles/globals.css";
-import Header from "./components/Header";
 import api from "./helpers/java-api";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -10,8 +9,7 @@ import Link from "next/link";
 interface City {
   id: string;
   name: string;
-  postalCode: string;
-  country: string;
+  imageUrl: string;
 }
 
 function Home() {
@@ -27,7 +25,11 @@ function Home() {
   const fetchCities = async () => {
     try {
       const data = await api.getCities();
-      setCities(data);
+      const citiesWithImages = data.map((city) => ({
+        ...city,
+        imageUrl: `images/cities/${city.imageUrl}`,
+      }));
+      setCities(citiesWithImages);
     } catch (err) {
       console.error("Error fetching cities: ", err);
       setError("Failed to load cities. Please, try again later.");
@@ -38,8 +40,6 @@ function Home() {
 
   return (
     <>
-      <Header />
-
       <main>
         <div
           className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
@@ -102,8 +102,8 @@ function Home() {
           </p>
         </div>
 
-        <div className="gap-6 relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-gray-800">
-          <h2 className="relative text-center text-5xl pb-12 font-extrabold font-sans text-white z-10">
+        <div className="pt-6 gap-6 relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-gray-800">
+          <h2 className="p-4 rounded-full bg-white/10  relative text-center text-5xl font-extrabold font-sans text-white z-10">
             Cities
           </h2>
 
@@ -111,21 +111,31 @@ function Home() {
           {error && <p className="text-red-500">{error}</p>}
 
           {!loading && !error && (
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 items-center w-full max-w-7xl">
+            <div className="grid grid-rows-1 md:grid-rows-3 lg:grid-rows-3 gap-4 p-4 items-center w-full max-w-7xl">
               {cities.map((city) => (
                 <div
                   key={city.id}
                   className="bg-white/10 rounded-lg p-6 text-white flex flex-col items-center justify-between h-full"
                 >
+                  <div className="w-full h-64 overflow-hidden rounded-lg mb-4">
+                    <img
+                      src={city.imageUrl}
+                      alt={city.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = "/cities/";
+                      }}
+                    ></img>
+                  </div>
                   <h3 className="text-2xl font-bold text-center mb-4">
                     {city.name}
                   </h3>
                   <Link href={`/cities/${city.id}`} passHref>
                     <button
-                      className={`font-sans px-6 py-2 rounded-full transition-colors ${
+                      className={`font-sans px-6 py-2 rounded-full transition-colors hover:bg-red-600 ${
                         pathname === "/"
                           ? "bg-red-500 text-white"
-                          : "text-white hover:bg-red-400"
+                          : "text-white hover:bg-red-300"
                       }`}
                     >
                       Learn more
@@ -133,12 +143,23 @@ function Home() {
                   </Link>
                 </div>
               ))}
+              <div className="pt-12 w-full flex  justify-center">
+                <Link href={`/cities/`} passHref>
+                  <button
+                    className={`font-sans text-3xl px-6 py-2 rounded-full transition-colors hover:bg-red-600 ${
+                      pathname === "/"
+                        ? "bg-red-500 text-white"
+                        : "text-white hover:bg-red-300"
+                    }`}
+                  >
+                    See all cities
+                  </button>
+                </Link>
+              </div>
             </div>
           )}
         </div>
       </main>
-
-      <footer></footer>
     </>
   );
 }

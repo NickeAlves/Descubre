@@ -1,3 +1,5 @@
+"use client";
+
 import NavBar from "./NavBar";
 import "./../styles/globals.css";
 

@@ -46,6 +46,9 @@ public class CityService {
             existingCity.setCountry(UpdateCityDTO.country());
         }
 
+        if (UpdateCityDTO.imageUrl() != null) {
+            existingCity.setImageUrl(UpdateCityDTO.imageUrl());
+        }
         return cityRepository.save(existingCity);
     }
 

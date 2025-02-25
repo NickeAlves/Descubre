@@ -10,15 +10,17 @@ public class City {
     private String name;
     private String postalCode;
     private String country;
+    private String imageUrl;
 
     public City() {
     }
 
-    public City(String id, String name, String postalCode, String country) {
+    public City(String id, String name, String postalCode, String country, String imageUrl) {
         this.id = id;
         this.name = name;
         this.postalCode = postalCode;
         this.country = country;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -51,6 +53,14 @@ public class City {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

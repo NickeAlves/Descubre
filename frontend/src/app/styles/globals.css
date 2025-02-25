@@ -83,3 +83,9 @@ body {
   background: var(--black-background);
   font-family: "Gilroy", "SF Pro Text", Arial, Helvetica, sans-serif;
 }
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+}

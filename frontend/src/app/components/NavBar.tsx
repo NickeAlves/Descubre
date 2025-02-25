@@ -34,7 +34,7 @@ const NavLinks = () => {
       <Link
         href="/attractions"
         className={`font-sans px-4 py-2 rounded-full transition-colors ${
-          pathname === "/cities"
+          pathname === "/attractions"
             ? "bg-red-500 text-white"
             : "text-white hover:bg-red-400"
         }`}

@@ -10,7 +10,7 @@ import com.descubre.models.TouristAttraction;
 public class DTOConverter {
 
     public static CityDTO convertCityDTO(City city) {
-        return new CityDTO(city.getId(), city.getName(), city.getPostalCode(), city.getCountry());
+        return new CityDTO(city.getId(), city.getName(), city.getPostalCode(), city.getCountry(), city.getImageUrl());
     }
 
     public static AddressDTO convertAddressDTO(Address address) {

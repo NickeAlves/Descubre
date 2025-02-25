@@ -40,7 +40,7 @@ public class CityController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public City createCity(@RequestBody @Valid CityDTO cityDTO) {
-        City city = new City(cityDTO.id(), cityDTO.name(), cityDTO.postalCode(), cityDTO.country());
+        City city = new City(cityDTO.id(), cityDTO.name(), cityDTO.postalCode(), cityDTO.country(), cityDTO.imageUrl());
         return cityService.saveCity(city);
     }
 
